@@ -1,0 +1,43 @@
+﻿@model LoginVM
+
+<link rel="stylesheet" href="~/css/login.css" />
+
+<div class="main_reg col-12">
+    <div class="content_reg col-10">
+        <div class="box_reg">
+            <div class="upper_reg col-12">
+                <h4 style="font-weight:700">Login</h4>
+            </div>
+            <form asp-action="Login" class="middle_reg col-12">
+                <div asp-validation-summary="ModelOnly" class="span_in col-12"></div>
+                <div class="col-12">
+                    <input type="text" class="in_reg col-12" placeholder="user name or email" asp-for="Account" />
+                    <span asp-validation-for="Account" class="span_in mb-2"></span>
+                </div>
+
+                <div class="col-12">
+                    <input type="password" class="in_reg col-12" placeholder="password" asp-for="Password" />
+                    <span asp-validation-for="Password" class="span_in mb-2"></span>
+                </div>
+
+                <div class="all_remeber col-12">
+                    <div class="remeber">
+                        <input type="checkbox" asp-for="RememberMe" />
+                        <label asp-for="RememberMe">Remeber me</label>
+                    </div>
+                    <a asp-action="Forget" class="a_remeber">forget password?</a>
+                </div>
+
+                <button type="submit" class="btn_reg col-12">Login</button>
+            </form>
+
+            <div class="lower">
+                <p class="p_lower">Don’t have an account? <a class="a_lower" asp-action="Register">Signup</a> </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}

@@ -1,0 +1,202 @@
+﻿.home_page {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 2rem;
+}
+
+.home_page_content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.movie_box {
+    width: 44%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.movie_title {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0.5rem 0.8rem;
+    border: solid 2px #a4a4a4;
+    background-color: #cacaca33;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    border-bottom: none;
+}
+
+.title_h4 {
+    margin: 0;
+}
+
+.movie_profile {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 1rem;
+    border: solid 2px #a4a4a4;
+    border-left: none;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.left {
+    width: 32%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.movie_profile_img {
+    width: 100%;
+    height: 37vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.remain {
+    width: 100%;
+    height: 9vh;
+    border-left: solid 2px #a4a4a4;
+}
+
+.all_detail {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 1rem;
+    padding-top: 1rem;
+}
+
+.movie_detail {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.price {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 0.2rem;
+}
+
+.p_price {
+    background-color: #474747;
+    color: white;
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    font-size: 0.9rem;
+}
+
+.movie_category {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 0.2rem;
+}
+
+.sign_avail {
+    color: white;
+    background-color: #0909dc;
+    padding: 0.2rem 0.3rem;
+    border-radius: 3px;
+}
+
+.sign_expire {
+    color: white;
+    background-color: #252525;
+    padding: 0.2rem 0.3rem;
+    border-radius: 3px;
+}
+
+.sign_upcoming {
+    color: white;
+    background-color: red;
+    padding: 0.2rem 0.3rem;
+    border-radius: 3px;
+}
+
+.lower_buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.a_details {
+    text-decoration: none;
+    color: #585858 !important;
+    background-color: white;
+    padding: 0.3rem 0.5rem;
+    border: solid 2px #686868;
+    border-radius: 5px;
+    transition: all ease 100ms;
+}
+
+    .a_details:hover {
+        color: white !important;
+        background-color: #585858 !important;
+        border: solid 2px #585858;
+    }
+
+.btn_lock {
+    color: white;
+    background-color: #252525;
+    padding: 0.3rem 0.5rem;
+    border: solid 2px #252525;
+    border-radius: 5px;
+}
+
+.cinema_link {
+    text-decoration: none;
+    color: #2c2c2c !important;
+    cursor: pointer;
+    transition: all 100ms ease;
+}
+
+    .cinema_link:hover {
+        color: black !important;
+    }

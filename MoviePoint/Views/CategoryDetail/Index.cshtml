@@ -1,0 +1,70 @@
+﻿@model Category
+
+<link rel="stylesheet" href="~/css/homemovie.css" />
+
+<div class="home_page col-12">
+    <div class="home_page_content col-10">
+        @foreach (var item in Model.Movies)
+        {
+            <div class="movie_box">
+                <div class="movie_title col-12">
+                    <h5 class="title_h4">@item.Name</h5>
+                </div>
+                <div class="movie_profile col-12">
+                    @* left_image starts *@
+                    <div class="left">
+                        <div class="movie_profile_img" style="background-image:url('@Url.Content("~/images/"+item.ImgUrl)')"></div>
+                        <div class="remain"></div>
+                    </div>
+                    @* left_image ends *@
+                    @* right detail starts *@
+                    <div class="all_detail">
+                        @* upper right detail starts *@
+                        <div class="movie_detail">
+                            <div class="price">
+                                <p class="detail_name">Price:</p>
+                                <p class="p_price">@item.Price</p>
+                            </div>
+                            <a href="/CinemaDetail/Index/@item.cinema.Id" class="cinema_link"><p>Cinema: @item.cinema.Name</p></a>
+                            <p class="detail_name">Start Date: @item.StartDate</p>
+                            <p class="detail_name">End Date: @item.EndDate</p>
+                            <div class="movie_category">
+                                <p class="detail_name">Category: </p>
+                                <a href="/CategoryDetail/Index/@Model.Id" class="a_category">@Model.Name</a>
+                            </div>
+                            @if (DateTime.Now > item.EndDate)
+                            {
+                                <p class="sign_expire">@item.Status</p>
+                            }
+                            else if (DateTime.Now < item.StartDate)
+                            {
+                                <p class="sign_upcoming">@item.Status</p>
+                            }
+                            else if(DateTime.Now>=item.StartDate && DateTime.Now<=item.EndDate)
+                            {
+                                <p class="sign_avail">@item.Status</p>
+                            }
+
+                        </div>
+                        @* upper right detail ends *@
+                        @* down right detail starts *@
+                        <div class="lower_buttons">
+                            <a href="/MovieDetail/Index/@item.Id" class="a_details">More Details</a>
+                            @if (DateTime.Now > item.EndDate || DateTime.Now < item.StartDate)
+                            {
+                                <button class="btn_lock">Book Ticket</button>
+                            }
+                            else
+                            {
+                                <button class="btn_booking">Book Ticket</button>
+                            }
+                        </div>
+                        @* down right detail ends *@
+                    </div>
+                    @* right detail ends *@
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

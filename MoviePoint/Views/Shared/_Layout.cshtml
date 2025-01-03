@@ -1,0 +1,143 @@
+﻿@inject Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> userManager
+@{
+    var user = await userManager.GetUserAsync(User);
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MoviePoint</title>
+    <link rel="icon" href="~/images/logo.png" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/MoviePoint.styles.css" asp-append-version="true" />
+</head>
+<body>
+
+    <header>
+        <nav class="shadow-sm">
+            <div class="left_nav">
+                <img src="~/images/logo.png" class="left_img" />
+                <div class="left_content">
+                    <a asp-action="Index" asp-controller="HomeMovie" class="left_title">Movie Point</a>
+                    <a asp-action="Index" asp-controller="HomeMovie" class="left_pages">Home</a>
+                    <a asp-action="Index" asp-controller="HomeCategory" class="left_pages">Categories</a>
+                    <a asp-action="Index" asp-controller="HomeCinema" class="left_pages">Cinemas</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item dropdown" style="list-style:none !important;">
+                            <a style="color:black !important" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+                            <div class="dropdown-menu">
+                                <a asp-action="Index" asp-controller="AllCategory" class="dropdown-item a_all">Categories</a>
+                                <a asp-action="Index" asp-controller="AllCinema" class="dropdown-item a_all">Cinemas</a>
+                                <a asp-action="Index" asp-controller="AllActor" class="dropdown-item a_all">Actors</a>
+                                <a asp-action="Index" asp-controller="AllMovie" class="dropdown-item a_all">Movies</a>
+                                <a asp-action="Index" asp-controller="AllActorMovies" class="dropdown-item a_all">Actor Movies</a>
+                            </div>
+                        </li>
+                        <div class="div_msg">
+                            <a asp-controller="CinemaReq" asp-action="CookDel" class="a_msg"><i class="fa-solid fa-comment-dots icon_msg"></i></a>
+                            @if (Context.Request.Cookies["Success"] != null)
+                            {
+                                <div class="circ_msg"></div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="profile">
+                <form asp-controller="HomeMovie" asp-action="Index" class="right_content">
+                    <input type="text" name="MovieName" placeholder="Search for movie..." class="input_search" required />
+                    <button type="submit" class="btn_search">Search</button>
+                </form>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="img_profile" style="background-image:url('@Url.Content("~/images/"+ user.ProfilePicture)')">
+                        <div class="box_prof shadow ">
+                            <div class="upper_prof">
+                                <p class="email_prof">@user.Email</p>
+                                <div class="img_prof" style="background-image:url('@Url.Content("~/images/"+ user.ProfilePicture)')"></div>
+                                <h5 style="padding-top:0.2rem;">Hi! @user.FirstName</h5>
+                            </div>
+                            <div class="lower_prof">
+                                <a asp-controller="Profile" asp-action="Index" class="detail_prof">Manage your Account</a>
+                                <div class="link_prof">
+                                    <a asp-controller="Account" asp-action="Register" class="left_link"><i class="fa-solid fa-plus i_left"></i> Add account</a>
+                                    <a asp-controller="Account" asp-action="Logout" class="right_link"><i class="fa-solid fa-arrow-right-from-bracket i_right"></i> Sign out</a>
+                                </div>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-xmark i_close"></i>
+                    </div>
+                }
+                else if (!User.Identity.IsAuthenticated)
+                {
+                    <div class="btn_accounts">
+                        <a asp-controller="Account" asp-action="Register" class="a_accounts">Register</a>
+                        <a asp-controller="Account" asp-action="Login" class="a_accounts">Login</a>
+                    </div>
+                }
+            </div>
+        </nav>
+    </header>
+
+    <div class="main_div">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    @* footer starts *@
+    <footer class="col-12">
+        <div class="content_footer col-12">
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("Cinema"))
+                {
+                    <a class="a_footer" asp-controller="CinemaReq" asp-action="Requeste" asp-route-Email="@user.Email">Join us</a>
+                }
+            }
+            <h6>Movie Point</h6>
+            <p class="p_footer">Our cinema is one one of the largest web applications inthe world that can include many cinemas of the world</p>
+            <p class="privacy_footer">@@2024 Movie Point Egypt. All rights reserved </p>
+        </div>
+    </footer>
+    @* footer ends *@
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        const img_profile = document.querySelector(".img_profile");
+        const box_prof = document.querySelector(".box_prof");
+        const i_close = document.querySelector(".i_close");
+        const whole = document.querySelector("body");
+        img_profile.onclick = function (e) {
+            e.stopPropagation();
+            if (box_prof.style.visibility == "visible" && i_close.style.visibility == "visible") {
+                box_prof.style.visibility = "hidden";
+                i_close.style.visibility = "hidden";
+
+            }
+            else {
+                box_prof.style.visibility = "visible";
+                i_close.style.visibility = "visible";
+            }
+        };
+        box_prof.onclick = function (e) {
+            e.stopPropagation();
+        };
+        whole.onclick = function () {
+            box_prof.style.visibility = "hidden";
+            i_close.style.visibility = "hidden";
+        };
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,89 @@
+﻿@model Movie
+<link rel="stylesheet" href="~/css/moviecreate.css" />
+
+<div class="main_page col-12">
+    <div class="page_used_area col-10">
+        <h3 class="col-12">Create Movie</h3>
+        <form asp-action="Create" class="c_form col-12" enctype="multipart/form-data">
+            <label asp-for="Name" class="label_in col-12">Name</label>
+            <input type="text" asp-for="Name" class="input_in col-12" />
+            <span asp-validation-for="Name" class="span_in col-12"></span>
+
+            <label asp-for="Description" class="label_in col-12">Description</label>
+            <input type="text" asp-for="Description" class="input_in col-12" />
+            <span asp-validation-for="Description" class="span_in col-12"></span>
+
+            <label asp-for="Price" class="label_in col-12">Price</label>
+            <input type="text" asp-for="Price" class="input_in col-12" />
+            <span asp-validation-for="Price" class="span_in col-12"></span>
+
+            <label for="logo" class="label_in col-12">Profile Picture</label>
+            <input type="file" class="input_in col-12" id="logo" name="file" />
+
+            <img src="" class="img_edit" style="display:none" />
+
+            <label asp-for="TrailerUrl" class="label_in col-12">Trailer Url</label>
+            <input type="text" asp-for="TrailerUrl" class="input_in col-12" />
+            <span asp-validation-for="TrailerUrl" class="span_in col-12"></span>
+
+            <label asp-for="Status" class="label_in col-12">Status</label>
+            <select asp-for="Status" class="input_in col-12">
+                <option>@MovieStatus.Upcoming</option>
+                <option>@MovieStatus.Available</option>
+                <option>@MovieStatus.Expired</option>
+            </select>
+            <span asp-validation-for="Status" class="span_in col-12"></span>
+
+            <label asp-for="StartDate" class="label_in col-12">StartDate</label>
+            <input type="datetime-local" asp-for="StartDate" class="input_in col-12" />
+            <span asp-validation-for="StartDate" class="span_in col-12"></span>
+
+            <label asp-for="EndDate" class="label_in col-12">EndDate</label>
+            <input type="datetime-local" asp-for="EndDate" class="input_in col-12" />
+            <span asp-validation-for="EndDate" class="span_in col-12"></span>
+
+            <label asp-for="CategoryId" class="label_in col-12">Category</label>
+            <select asp-for="CategoryId" class="input_in col-12">
+                @foreach (var item in ViewBag.Categories)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+            <span asp-validation-for="CategoryId" class="span_in col-12"></span>
+
+            <label asp-for="CinemaId" class="label_in col-12">Cinema</label>
+            <select asp-for="CinemaId" class="input_in col-12">
+                @foreach (var item in ViewBag.Cinemas)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+            <span asp-validation-for="CinemaId" class="span_in col-12"></span>
+
+            <div class="col-12">
+                <button type="submit" class="btn_submit">create</button>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial.cshtml" />
+    <script>
+        const logo = document.getElementById("logo");
+        const img = document.querySelector(".img_edit");
+
+        logo.addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    img.setAttribute("src", e.target.result);
+                    img.style.display = "block";
+                };
+                reader.readAsDataURL(file);
+            } else {
+                img.style.display = "none";
+            }
+        });
+    </script>
+}

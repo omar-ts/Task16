@@ -1,0 +1,19 @@
+﻿@model List<Category>
+
+<link rel="stylesheet" href="~/css/pagecategory.css" />
+
+<div class="catgory_page col-12">
+    <div class="category_content_area col-10">
+        <h1 class="col-12">Categories</h1>
+        <div class="category_field col-12">
+            <p class="p_field">Name</p>
+        </div>
+        @foreach (var item in Model)
+        {
+            <div class="category_name col-12">
+                <p class="p_name">@item.Name</p>
+                <a href="/CategoryDetail/Index/@item.Id">All Movies</a>
+            </div>
+        }
+    </div>
+</div>

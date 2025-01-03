@@ -1,0 +1,35 @@
+﻿@model ActorMovie
+<link rel="stylesheet" href="~/css/movieactorcreate.css" />
+
+<div class="main_page col-12">
+    <div class="page_used_area col-10">
+        <h3 class="col-12">Add Actor in Movie</h3>
+        <form asp-action="Create" class="c_form col-12">
+            <div asp-validation-summary="ModelOnly" class="span_in col-12"></div>
+            <p class="col-12" style="font-weight:bold">Please select one movie:</p>
+            @foreach (var item in ViewBag.Movies)
+            {
+                <div class="radios col-12">
+                    <input type="radio" asp-for="MovieId" value="@item.Id" />
+                    <label asp-for="MovieId">@item.Name</label><br>
+                </div>
+            }
+            <span asp-validation-for="MovieId" class="span_in col-12"></span>
+
+            <div class="col-12 pt-3">
+                <p class="col-12" style="font-weight:bold">Please select one actor:</p>
+                @foreach (var item in ViewBag.Actors)
+                {
+                    <div class="radios col-12">
+                        <input type="radio" asp-for="ActorId" value="@item.Id" />
+                        <label asp-for="ActorId">@item.Name</label><br>
+                    </div>
+                }
+                <span asp-validation-for="ActorId" class="span_in col-12"></span>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn_submit">Add</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+﻿@model Actor
+<link rel="stylesheet" href="~/css/actoredit.css" />
+
+<div class="main_page col-12">
+    <div class="page_used_area col-10">
+        <h3 class="col-12">Edit Actor</h3>
+        <form asp-action="Edit" class="c_form col-12" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" />
+            <label asp-for="Name" class="label_in col-12">Name</label>
+            <input type="text" asp-for="Name" class="input_in col-12" />
+            <span asp-validation-for="Name" class="span_in col-12"></span>
+
+            <label asp-for="Bio" class="label_in col-12">Bio</label>
+            <input type="text" asp-for="Bio" class="input_in col-12" />
+            <span asp-validation-for="Bio" class="span_in col-12"></span>
+
+            <label for="logo" class="label_in col-12">Profile Picture</label>
+            <input type="file" class="input_in col-12" id="logo" name="file" />
+
+            <img src="~/images/@Model.ProfilePicture" class="img_edit" style="display:block" />
+
+            <label asp-for="News" class="label_in col-12">News</label>
+            <input type="text" asp-for="News" class="input_in col-12" />
+            <span asp-validation-for="News" class="span_in col-12"></span>
+
+            <div class="col-12">
+                <button type="submit" class="btn_submit">Edit</button>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial.cshtml" />
+    <script>
+        const logo = document.getElementById("logo");
+        const img = document.querySelector(".img_edit");
+
+        logo.addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    img.setAttribute("src", e.target.result);
+                    img.style.display = "block";
+                };
+                reader.readAsDataURL(file);
+            } else {
+                img.style.display = "none";
+            }
+        });
+    </script>
+}

@@ -1,0 +1,110 @@
+﻿@model ApplicationUser
+<link rel="stylesheet" href="~/css/prof.css" />
+
+<div class="main_prof col-12">
+    <div class="area_prof col-10">
+        <div class="used_area_prof col-12">
+            <div class="upper_pref col-12">
+                <h2 class="h_upper_pref col-12">Manage your account</h2>
+                <h3 class="h_upper_pref col-12">Chane your account settings</h3>
+                <div class="line_upper_pref col-12"></div>
+            </div>
+            <div class="left_prof">
+                <a asp-action="Index" class="a_left" style="color:white !important;background-color:blue">Profile</a>
+                <a asp-action="ChEmail" class="a_left">Email</a>
+                <a asp-action="ChPassword" class="a_left">Password</a>
+            </div>
+            <div class="right_prof">
+                <h4 class="col-12">Profile</h4>
+
+                @if (TempData["Isuccess"] != null)
+                {
+                    <div class="success_msg col-12">
+                        <p class="p_msg">@TempData["Isuccess"]</p>
+                        <i class="fa-solid fa-xmark i_msg"></i>
+                    </div>
+                }
+
+                <form asp-action="Index" class="f_prof" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="Email" />
+                    <div class="div_prof">
+                        <img src="~/images/@Model.ProfilePicture" class="img_edit" data-name="@Model.ProfilePicture" />
+                        <label for="logo" class="lab_img"><i class="fa-solid fa-camera i_cam"></i></label>
+                        <input type="file" name="file" id="logo" style="display:none" />
+                    </div>
+                    <div class="form-floating col-12">
+                        <input type="text" class="form-control" placeholder="" asp-for="UserName" value="@Model.UserName" disabled />
+                        <label asp-for="UserName">UserName</label>
+                    </div>
+                    <div class="form-floating col-12">
+                        <input type="text" class="form-control" placeholder="" asp-for="FirstName" value="@Model.FirstName" />
+                        <label asp-for="FirstName">FirstName</label>
+                        <span asp-validation-for="FirstName"></span>
+                    </div>
+                    <div class="form-floating col-12">
+                        <input type="text" class="form-control" placeholder="" asp-for="LastName" value="@Model.LastName" />
+                        <label asp-for="LastName">LastName</label>
+                        <span asp-validation-for="LastName"></span>
+                    </div>
+                    <div class="form-floating col-12">
+                        <input type="text" class="form-control" placeholder="" asp-for="PhoneNumber" value="@Model.PhoneNumber">
+                        <label asp-for="PhoneNumber">Phone number</label>
+                        <span asp-validation-for="PhoneNumber" class="span_in"></span>
+                    </div>
+                    <button class="btn_prof col-12" type="submit">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .upper_pref {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .h_upper_pref {
+        margin: 0;
+    }
+
+    .line_upper_pref {
+        height: 0.2vh;
+        background-color: #00000045;
+    }
+
+</style>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial.cshtml" />
+    <script>
+        const logo = document.getElementById("logo");
+        const img = document.querySelector(".img_edit");
+        const success_msg = document.querySelector(".success_msg");
+        const i_msg = document.querySelector(".i_msg");
+        const oldImgUrl = img.getAttribute("data-name");
+
+        logo.addEventListener("change", function (event) {
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    img.setAttribute("src", e.target.result);
+                    img.style.display = "block";
+                };
+                reader.readAsDataURL(file);
+            } else {
+                img.setAttribute("src", `/images/${oldImgUrl}`);
+                img.style.display = "block";
+            }
+        });
+        i_msg.onclick = function () {
+            success_msg.style.display = "none";
+        };
+
+    </script>
+}

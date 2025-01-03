@@ -1,0 +1,76 @@
+﻿@model Movie
+<link rel="stylesheet" href="~/css/profilemovie.css" />
+
+<div class="detail_page col-12">
+    <div class="detail_page_content col-10">
+        <div class="upper_detail col-12">
+            @if (DateTime.Now > Model.EndDate)
+            {
+                <p class="sign_expire">@Model.Status</p>
+            }
+            else if (DateTime.Now < Model.StartDate)
+            {
+                <p class="sign_upcoming">@Model.Status</p>
+            }
+            else if (DateTime.Now >= Model.StartDate && DateTime.Now <= Model.EndDate)
+            {
+                <p class="sign_avail">@Model.Status</p>
+            }
+            <h1 class="col-12">@Model.Name</h1>
+        </div>
+        @* middle detail starts *@
+        <div class="middle_detail col-12">
+            @* left mid starts *@
+            <div class="left_mid">
+                <div class="left_mid_img" style="background-image:url('@Url.Content("~/images/"+Model.ImgUrl)')"></div>
+            </div>
+            @* left mid ends *@
+            @* right mid starts *@
+            <div class="right_mid">
+                <p class="detail_name">@Model.Description</p>
+                <div class="price">
+                    <p class="detail_name">Price:</p>
+                    <p class="p_price">@Model.Price</p>
+                </div>
+                <a href="/CinemaDetail/Index/@Model.cinema.Id" class="cinema_link"><p>Cinema: @Model.cinema.Name</p></a>
+                <p class="detail_name">Start Date: @Model.StartDate</p>
+                <p class="detail_name">End Date: @Model.EndDate</p>
+                <div class="movie_category">
+                    <p class="detail_name">Category: </p>
+                    <a href="/CategoryDetail/Index/@Model.category.Id" class="a_category">@Model.category.Name</a>
+                </div>
+                <div class="actor_img">
+                    @foreach (var item in Model.ActorMovies)
+                    {
+                        <a href="/ActorDetail/Index/@item.Actor.Id"><div class="actor_prof" style="background-image:url('@Url.Content("~/images/"+item.Actor.ProfilePicture)')"></div></a>
+                    }
+                </div>
+                <p class="detail_name">Trailer</p>
+                <iframe src="@Model.TrailerUrl" class="mid_video" allowfullscreen></iframe>
+                @if (DateTime.Now > Model.EndDate || DateTime.Now < Model.StartDate)
+                {
+                    <button class="btn_lock">Book Ticket</button>
+                }
+                else
+                {
+                    <button class="btn_booking">Book Ticket</button>
+                }
+
+            </div>
+            @* right mid ends *@
+        </div>
+        @* middle detail ends *@
+    </div>
+</div>
+<style>
+    .cinema_link {
+        text-decoration: none;
+        color: #2c2c2c !important;
+        cursor: pointer;
+        transition: all 100ms ease;
+    }
+
+        .cinema_link:hover {
+            color: black !important;
+        }
+</style>

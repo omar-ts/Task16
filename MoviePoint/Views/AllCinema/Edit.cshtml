@@ -1,0 +1,52 @@
+﻿@model Cinema
+<link rel="stylesheet" href="~/css/cinemaedit.css" />
+
+<div class="main_page col-12">
+    <div class="page_used_area col-10">
+        <h3 class="col-12">Edit Category</h3>
+        <form asp-action="Edit" class="c_form col-12" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" asp-action="Edit" />
+            <label asp-for="Name" class="label_in col-12">Name</label>
+            <input type="text" asp-for="Name" class="input_in col-12" />
+            <span asp-validation-for="Name" class="span_in col-12"></span>
+
+            <label asp-for="Description" class="label_in col-12">Description</label>
+            <input type="text" asp-for="Description" class="input_in col-12" />
+            <span asp-validation-for="Description" class="span_in col-12"></span>
+
+            <label for="logo" class="label_in col-12">Logo</label>
+            <input type="file" class="input_in col-12" id="logo" name="file" />
+
+            <img src="~/images/@Model.CinemaLogo" class="img_edit" style="display:block" />
+
+            <label asp-for="Address" class="label_in col-12">Address</label>
+            <input type="text" asp-for="Address" class="input_in col-12" />
+            <span asp-validation-for="Address" class="span_in col-12"></span>
+
+            <div class="col-12">
+                <button type="submit" class="btn_submit">Edit</button>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial.cshtml" />
+    <script>
+        const logo = document.getElementById("logo");
+        const img = document.querySelector(".img_edit");
+
+        logo.addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    img.setAttribute("src", e.target.result);
+                    img.style.display = "block";
+                };
+                reader.readAsDataURL(file);
+            } else {
+                img.style.display = "none";
+            }
+        });
+    </script>
+}

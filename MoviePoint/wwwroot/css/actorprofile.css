@@ -1,0 +1,53 @@
+﻿.actor_page {
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 2rem;
+}
+
+.actor_page_area {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.actor_content {
+    padding: 0.8rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border: solid 2px #75757521;
+    border-radius: 5px;
+}
+
+.upper_content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.actor_prof {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+}
+
+.mid_p {
+    font-size: 0.9rem;
+}

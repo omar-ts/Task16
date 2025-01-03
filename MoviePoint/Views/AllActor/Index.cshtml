@@ -1,0 +1,240 @@
+﻿@model ActorVM
+<link rel="stylesheet" href="~/css/myactor.css" />
+
+<div class="main_page col-12">
+    <div class="page_used_area col-10">
+        <h3 class="col-12">Actors</h3>
+        <div class="table_area col-12">
+            <a asp-action="Create" class="btn_create"><i class="bi bi-plus-circle"></i> Create</a>
+            <form asp-action="Index" class="c_form col-12">
+                <input type="text" name="query" class="input_in" placeholder="Search..." />
+                <button type="submit" class="btn_submit">Search</button>
+            </form>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Actor Name</th>
+                        <th scope="col">Actor Bio</th>
+                        <th scope="col">Actor Picture</th>
+                        <th scope="col">Actor News</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    @foreach (var item in Model.Actors)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td style="width:28rem">@item.Bio</td>
+                            <td><a href="#"><div class="act_img" style="background-image:url('@Url.Content("~/images/"+item.ProfilePicture)')"></div></a></td>
+                            <td><a href="@item.News">latest_news</a></td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="a_edit"><i class="bi bi-box-arrow-in-down-left i_edit"></i> Edit</a>
+                                <a href="#" data-id="@item.Id" data-name="@item.Name" class="a_delete"><i class="bi bi-trash i_delete"></i> Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @* pagination *@
+        @if (Model.TotalPages <= 1)
+        {
+
+        }
+        else if (Model.TotalPages > 1)
+        {
+            <div style="padding-top: 1rem;">
+                <ul class="pagination pagination-sm all_paginations">
+                    @if (Model.Pagination == 1)
+                    {
+                        <li class="page-item">
+                            <a class="previous_pagination" style="display:none">&laquo;</a>
+                        </li>
+                    }
+                    else if (Model.Pagination > 1)
+                    {
+                        <li class="page-item">
+                            <a class="previous_pagination" asp-action="Index" asp-route-pagination="@(Model.Pagination-1)">&laquo;</a>
+                        </li>
+                    }
+                    @if ((Model.Pagination - 2) < 1 && (Model.Pagination + 2) > Model.TotalPages)
+                    {
+                        @for (int i = Model.StartPage; i <= Model.EndPage; i++)
+                        {
+                            if (i == Model.Pagination)
+                            {
+                                <li class="page-item">
+                                    <a class="pagination_num" asp-action="Index" asp-route-pagination="@i" style="background-color:#1313ff;color:white !important;">@i</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item">
+                                    <a class="pagination_num" asp-action="Index" asp-route-pagination="@i">@i</a>
+                                </li>
+                            }
+                        }
+                    }
+                    else if ((Model.Pagination - 2) < 1)
+                    {
+                        @for (int i = Model.StartPage; i <= Model.EndPage; i++)
+                        {
+                            if (i == Model.Pagination)
+                            {
+                                <li class="page-item">
+                                    <a class="pagination_num" asp-action="Index" asp-route-pagination="@i" style="background-color:#1313ff;color:white !important;">@i</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item">
+                                    <a class="pagination_num" asp-action="Index" asp-route-pagination="@i">@i</a>
+                                </li>
+                            }
+                        }
+                        <li class="page-item">
+                            <p class="pagination_num_no">...</p>
+                        </li>
+
+                        <li class="page-item">
+                            <a class="pagination_num" asp-action="Index" asp-route-pagination="@Model.TotalPages">@Model.TotalPages</a>
+                        </li>
+                    }
+                    else if ((Model.Pagination - 2) >= 1 && (Model.Pagination + 2) <= Model.TotalPages)
+                    {
+                        <li class="page-item">
+                            <a class="pagination_num" asp-action="Index" asp-route-pagination="1">1</a>
+                        </li>
+
+                        <li class="page-item">
+                            <p class="pagination_num_no">...</p>
+                        </li>
+
+                        @for (int i = Model.StartPage; i <= Model.EndPage; i++)
+                        {
+                            if (i == Model.Pagination)
+                            {
+                                <li class="page-item">
+                                    <a class="pagination_num" asp-action="Index" asp-route-pagination="@i" style="background-color:#1313ff;color:white !important;">@i</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item">
+                                    <a class="pagination_num" asp-action="Index" asp-route-pagination="@i">@i</a>
+                                </li>
+                            }
+                        }
+                        <li class="page-item">
+                            <p class="pagination_num_no">...</p>
+                        </li>
+
+                        <li class="page-item">
+                            <a class="pagination_num" asp-action="Index" asp-route-pagination="@Model.TotalPages">@Model.TotalPages</a>
+                        </li>
+                    }
+                    else if ((Model.Pagination + 2) > Model.TotalPages)
+                    {
+                        <li class="page-item">
+                            <a class="pagination_num" asp-action="Index" asp-route-pagination="1">1</a>
+                        </li>
+
+                        <li class="page-item">
+                            <p class="pagination_num_no">...</p>
+                        </li>
+
+                        @for (int i = Model.StartPage; i <= Model.EndPage; i++)
+                        {
+                            if (i == Model.Pagination)
+                            {
+                                <li class="page-item">
+                                    <a class="pagination_num" asp-action="Index" asp-route-pagination="@i" style="background-color:#1313ff;color:white !important;">@i</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item">
+                                    <a class="pagination_num" asp-action="Index" asp-route-pagination="@i">@i</a>
+                                </li>
+                            }
+                        }
+                    }
+
+                    @if (Model.Pagination >= Model.TotalPages)
+                    {
+                        <li class="page-item" style="display:none">
+                            <a class="next_pagination" href="#">&raquo;</a>
+                        </li>
+                    }
+                    else if (Model.Pagination < Model.TotalPages)
+                    {
+                        <li class="page-item">
+                            <a class="next_pagination" asp-action="Index" asp-route-pagination="@(Model.Pagination+1)">&raquo;</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="fixed_page hide col-12">
+    <div class="del_box">
+        <div class="upper_box col-12">
+            <h4 class="h4_upper">Confirm delete</h4>
+            <i class="bi bi-x-lg i_upper"></i>
+        </div>
+        <div class="mid_box col-12"></div>
+        <div class="lower_box">
+            <p>Are you sure that you want to delete actor <strong></strong> ?</p>
+            <div class="lower_btn">
+                <a href="" class="a_lower">Delete</a>
+                <button class="btn_lower">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const a_delete = document.querySelectorAll(".a_delete");
+        const fixed_page = document.querySelector(".fixed_page");
+        const a_lower = document.querySelector(".a_lower");
+        const del_box = document.querySelector(".del_box");
+        const i_upper = document.querySelector(".i_upper");
+        const btn_lower = document.querySelector(".btn_lower");
+        const strong = document.querySelector("strong");
+
+        a_delete.forEach(btn => {
+            btn.onclick = function () {
+                const ActorId = this.getAttribute("data-id");
+                const name = this.getAttribute("data-name");
+                strong.textContent = name;
+                fixed_page.classList.remove("hide");
+                fixed_page.classList.add("appear");
+                del_box.classList.add("animate__animated", "animate__fadeInDownBig", "animate__fast");
+                a_lower.setAttribute("href", `/AllActor/Delete/${ActorId}`);
+            };
+        });
+        del_box.onclick = function (e) {
+            e.stopPropagation();
+        };
+        i_upper.onclick = function (e) {
+            fixed_page.classList.remove("appear");
+            fixed_page.classList.add("hide");
+        };
+        btn_lower.onclick = function () {
+            fixed_page.classList.remove("appear");
+            fixed_page.classList.add("hide");
+        };
+        fixed_page.onclick = function () {
+            fixed_page.classList.remove("appear");
+            fixed_page.classList.add("hide");
+        };
+        var success = '@TempData["ASuccess"]';
+        if (success !== '') {
+            toastr.success(success, { timeOut: 5000 });
+        }
+    </script>
+}

@@ -1,0 +1,18 @@
+﻿@model Actor
+
+<link rel="stylesheet" href="~/css/actorprofile.css" />
+
+<div class="actor_page col-12">
+    <div class="actor_page_area col-10">
+        <div class="actor_content col-12">
+            <div class="upper_content col-12">
+                <div class="actor_prof" style="background-image:url('@Url.Content("~/images/"+Model.ProfilePicture)')"></div>
+                <h5 class="actor_name col-12">@Model.Name</h5>
+            </div>
+            <div class="mid_content col-12">
+                <p class="mid_p">Bio: @Model.Bio</p>
+            </div>
+            <a href="@Model.News">News</a>
+        </div>
+    </div>
+</div>

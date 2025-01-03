@@ -1,0 +1,18 @@
+﻿@model Category
+<link rel="stylesheet" href="~/css/categoryedit.css"/>
+
+<div class="main_page col-12">
+    <div class="page_used_area col-10">
+        <h3 class="col-12">Edit Category</h3>
+        <form asp-action="Edit" class="c_form col-12">
+            <input type="hidden" asp-for="Id"/>
+            <label asp-for="Name" class="label_in col-12">Name</label>
+            <input type="text" asp-for="Name" class="input_in col-12" />
+            <span asp-validation-for="Name" class="span_in col-12"></span>
+            <button type="submit" class="btn_submit">Edit</button>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial.cshtml" />
+}
