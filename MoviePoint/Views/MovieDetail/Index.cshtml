@@ -53,7 +53,7 @@
                 }
                 else
                 {
-                    <button class="btn_booking">Book Ticket</button>
+                    <a asp-controller="HomeMovie" asp-action="Book" asp-route-id="@Model.Id" class="a_booking">Book Ticket</a>
                 }
 
             </div>
@@ -72,5 +72,23 @@
 
         .cinema_link:hover {
             color: black !important;
+        }
+
+    .a_booking {
+        text-decoration: none !important;
+        color: white !important;
+        background-color: #156815;
+        padding: 0.3rem 0.5rem;
+        border: solid 2px #156815;
+        border-radius: 5px;
+        transition: all ease 100ms;
+        margin-top:1rem;
+    }
+
+        .a_booking:hover {
+            color: white !important;
+            text-decoration: none !important;
+            background-color: #0d370d;
+            border: solid 2px #0d370d;
         }
 </style>

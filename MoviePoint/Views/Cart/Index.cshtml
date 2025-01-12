@@ -1,1 +1,68 @@
-﻿
+﻿@model CartVM
+<link rel="stylesheet" href="~/css/cart.css" />
+<div class="main_cart col-12">
+    <div class="area_cart col-9">
+        <a asp-controller="HomeMovie" asp-action="Index" class="a_back">
+            <i class="bi bi-arrow-left i_back"></i>
+            <p class="p_back">Back to shop</p>
+        </a>
+        @if (Model.Carts.Any())
+        {
+            <div class="middle_area col-12">
+                @foreach (var item in Model.Carts)
+                {
+                    <div class="middle_content col-12">
+                        <div class="left_mid_area">
+                            <div class="left_mid" style="background-image:url('@Url.Content("~/images/"+item.Movie.ImgUrl)')"></div>
+                            <p class="p_mid">@item.Movie.Name</p>
+                            <div class="div_descript">
+                                <p class="p_mid">@item.Movie.Description</p>
+                            </div>
+                            <div class="right_mid">
+                                <p class="p_mid">@item.Count</p>
+                                <div class="right_mid_links">
+                                    <a asp-action="Increment" asp-route-userId="@item.ApplicationUserId" asp-route-Movieid="@item.MovieId" class="a_right_mid"><i class="bi bi-plus"></i></a>
+                                    <a asp-action="Decrement" asp-route-userId="@item.ApplicationUserId" asp-route-Movieid="@item.MovieId" class="a_right_mid"><i class="bi bi-dash"></i></a>
+                                </div>
+                            </div>
+                            <p class="p_mid">@item.Movie.Price Egp</p>
+                        </div>
+                        <a asp-action="Clear" asp-route-userId="@item.ApplicationUserId" asp-route-Movieid="@item.MovieId" class="a_del"><i class="bi bi-x"></i></a>
+                    </div>
+                }
+            </div>
+
+            <div class="lower_area col-12">
+                <p class="p_mid">Subtotal:  @Model.TotalSum Egp</p>
+                <a asp-action="Pay" class="a_lower">Place order</a>
+            </div>
+        }
+        else
+        {
+            <div class="upper_area col-12">
+                <h4 class="h4_upper_area">Your Shopping Cart is empty</h4>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const a_back = document.querySelector('.a_back');
+        const i_back = document.querySelector('.i_back');
+        a_back.addEventListener('mouseenter', () => {
+            if (i_back.classList.contains('move_origin')) {
+                i_back.classList.remove('move_origin');
+            }
+            i_back.classList.add('move-left');
+        });
+
+        a_back.addEventListener('mouseleave', () => {
+            if (i_back.classList.contains('move-left')) {
+                i_back.classList.remove('move-left');
+            }
+            i_back.classList.add('move_origin');
+        });
+
+    </script>
+}

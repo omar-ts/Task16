@@ -1,6 +1,6 @@
 ﻿@model MovieVM
 
-<link rel="stylesheet" href="~/css/homemovies.css" />
+<link rel="stylesheet" href="~/css/moviehome.css" />
 
 <div class="home_page col-12">
     <div class="home_page_content col-10">
@@ -207,10 +207,6 @@
     </div>
 </div>
 <style>
-    .home_page_content {
-        padding-bottom: 1rem;
-    }
-
     .all_paginations {
         display: flex;
         flex-direction: row;
@@ -295,8 +291,9 @@
             background-color: #0d370d;
             border: solid 2px #0d370d;
         }
+
 </style>
-@section Scripts{
+@section Scripts {
     @if (TempData["Success"] != null)
     {
         <script>

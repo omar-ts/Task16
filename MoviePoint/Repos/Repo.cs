@@ -14,7 +14,7 @@ namespace MoviePoint.Repos
         public Repo(ApplicationDbContext dbContext)
         {
             this._dbContext = dbContext;
-            _dbSet=_dbContext.Set<T>();
+            _dbSet = _dbContext.Set<T>();
         }
         public void Create(T entity)
         {
@@ -27,6 +27,10 @@ namespace MoviePoint.Repos
         public void Delete(T entity)
         {
             _dbSet.Remove(entity);
+        }
+        public void RemoveAll(List<T> entity)
+        {
+            _dbSet.RemoveRange(entity);
         }
         public void Attemp()
         {

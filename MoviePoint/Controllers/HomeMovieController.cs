@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviePoint.Data;
+using MoviePoint.Models;
 using MoviePoint.Models.ViewModels;
 using MoviePoint.Repos.IRepos;
 
@@ -8,13 +10,18 @@ namespace MoviePoint.Controllers
 {
     public class HomeMovieController : Controller
     {
+        ApplicationDbContext context = new ApplicationDbContext();
         IMovieRepo MovieRepo;
         private readonly IActorRepo actorRepo;
+        private readonly ICartRepo cartRepo;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public HomeMovieController(IMovieRepo movieRepo, IActorRepo actorRepo)
+        public HomeMovieController(IMovieRepo movieRepo, IActorRepo actorRepo, ICartRepo cartRepo, UserManager<ApplicationUser> userManager)
         {
             MovieRepo = movieRepo;
             this.actorRepo = actorRepo;
+            this.cartRepo = cartRepo;
+            this.userManager = userManager;
         }
 
         public IActionResult Index(int pagination = 1, string? MovieName = null)
@@ -77,9 +84,50 @@ namespace MoviePoint.Controllers
             }
             return View(model: movie);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Book(int movieId, int counter)
+        {
+            var user = userManager.GetUserId(User);
+            var cartExist = cartRepo.GetOne(filter: e => e.ApplicationUserId == user && e.MovieId == movieId);
+            if (cartExist != null)
+            {
+                cartExist.Count = cartExist.Count + counter;
+                cartRepo.Attemp();
+                TempData["Success"] = "Your cart has been successfully changed";
+            }
+            else if (cartExist == null)
+            {
+                Cart cart = new()
+                {
+                    ApplicationUserId = user,
+                    MovieId = movieId,
+                    Count = counter,
+                    Time = DateTime.Now
+                };
+                cartRepo.Create(cart);
+                cartRepo.Attemp();
+                TempData["Success"] = "You have been successfully booked";
+                string CookieKey = $"Bsuccess_{user}";
+                var cookien = Request.Cookies[CookieKey];
+                if (cookien == null) cookien = "0";
+                int count = int.Parse(cookien);
+                count += 1;
+                CookieOptions cookieOptions = new CookieOptions();
+                cookieOptions.Expires = DateTime.Now.AddYears(1000);
+                Response.Cookies.Append(CookieKey, count.ToString(), cookieOptions);
+            }
+            return RedirectToAction(nameof(Index));
+        }
         public IActionResult NotFoundPage()
         {
             return View();
+        }
+        public IActionResult Clear()
+        {
+            var user = userManager.GetUserId(User);
+            Response.Cookies.Delete($"Bsuccess_{user}");
+            return RedirectToAction(nameof(Index));
         }
     }
 }

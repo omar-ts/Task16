@@ -200,3 +200,8 @@
     .cinema_link:hover {
         color: black !important;
     }
+
+.home_page_content {
+    padding-bottom: 1rem;
+}
+

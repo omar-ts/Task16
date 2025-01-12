@@ -48,6 +48,21 @@
                             }
                         </div>
                     }
+                    <div class="cart">
+                        <a asp-controller="Cart" asp-action="Index"><i class="fa-solid fa-cart-shopping i_cart"></i></a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (Context.Request.Cookies[$"Bsuccess_{user.Id}"] != null)
+                            {
+                                <p class="p_cart">( @Context.Request.Cookies[$"Bsuccess_{user.Id}"] )</p>
+                            }
+                            else
+                            {
+                                <p class="p_cart">( 0 )</p>
+                            }
+
+                        }
+                    </div>
                 </div>
             </div>
             <div class="profile">

@@ -1,0 +1,26 @@
+﻿<link rel="stylesheet" href="~/css/suces.css" />
+<div class="main_success col-12">
+    <div class="content_success_area col-8">
+        <div class="upper_suc">
+            <div class="icons">
+                <i class="fa-solid fa-credit-card credit_suc"></i>
+                <i class="fa-solid fa-check check_suc"></i>
+            </div>
+        </div>
+
+        <div class="middle">
+            <h3 class="h4_middle">Thank You!</h3>
+            <p class="p_middle">Payment done Successfully</p>
+        </div>
+        <p class="p_red">You will be redirected to the home page in a few seconds or click home button to return to home page</p>
+        <a asp-controller="HomeMovie" asp-action="Index" class="a_home">Home</a>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        setTimeout(() => {
+            window.location.href = "/HomeMovie/Index";
+        }, 60000);
+    </script>
+}

@@ -47,8 +47,8 @@
                 </div>
                 @if (Model.Status == MovieStatus.Available)
                 {
-                    <form class="t_form">
-                        <input type="hidden" value="@Model.Id" name="productId" />
+                    <form asp-action="Book" class="t_form">
+                        <input type="hidden" value="@Model.Id" name="movieId" />
                         <input type="number" name="counter" value="1" id="counter" min="1" class="input_in" />
                         <button type="submit" class="btn_submit_t">Book ticket</button>
                     </form>

@@ -1,6 +1,5 @@
 ﻿@model Category
-
-<link rel="stylesheet" href="~/css/homemovie.css" />
+<link rel="stylesheet" href="~/css/moviehome.css" />
 
 <div class="home_page col-12">
     <div class="home_page_content col-10">
@@ -40,7 +39,7 @@
                             {
                                 <p class="sign_upcoming">@item.Status</p>
                             }
-                            else if(DateTime.Now>=item.StartDate && DateTime.Now<=item.EndDate)
+                            else if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate)
                             {
                                 <p class="sign_avail">@item.Status</p>
                             }

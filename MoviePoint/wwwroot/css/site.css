@@ -351,3 +351,21 @@ footer {
     color: black !important;
     text-decoration: none !important;
 }
+
+.cart {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.i_cart {
+    color: black !important;
+    text-decoration: none !important;
+}
+
+.p_cart {
+    margin: 0;
+}

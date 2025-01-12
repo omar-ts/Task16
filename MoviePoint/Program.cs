@@ -4,6 +4,8 @@ using MoviePoint.Data;
 using MoviePoint.Models;
 using MoviePoint.Repos;
 using MoviePoint.Repos.IRepos;
+using MoviePoint.Utility;
+using Stripe;
 
 namespace MoviePoint
 {
@@ -15,11 +17,12 @@ namespace MoviePoint
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
             builder.Services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
-                options.User.RequireUniqueEmail= true;
+                options.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
@@ -32,6 +35,8 @@ namespace MoviePoint
             builder.Services.AddScoped<ICinemaReqRepo, CinemaReqRepo>();
             builder.Services.AddScoped<ICartRepo, CartRepo>();
             builder.Services.AddScoped<IApplicationUserRepo, ApplicationUserRepo>();
+            builder.Services.AddTransient<IEmailSender, EmailSender>();
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
