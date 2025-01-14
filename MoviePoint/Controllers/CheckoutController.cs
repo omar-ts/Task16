@@ -53,6 +53,7 @@ namespace MoviePoint.Controllers
         }
         public IActionResult Cancel()
         {
+            #region emailbody
             string emailBody = $@"
           <!DOCTYPE html>
 <html lang='en'>
@@ -70,7 +71,8 @@ namespace MoviePoint.Controllers
 
     <p style='padding: 0.4rem 0.5rem;font-size: 1.1rem;font-weight: 500;'>OOPS! There is an error during proccessing</p>
 </body>
-</html>";
+</html>"; 
+            #endregion
             string user = userManager.GetUserAsync(User).Result.Email;
             emailSender.SendEmailAsync(user, "fail", emailBody);
             return View();

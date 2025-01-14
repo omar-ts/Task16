@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace MoviePoint.Models.ViewModels
@@ -28,5 +29,7 @@ namespace MoviePoint.Models.ViewModels
         public string LastName { get; set; }
         [ValidateNever]
         public string ProfilePicture { get; set; }
+
+        public List<AuthenticationScheme> ExternalLogins { get; set; } = new List<AuthenticationScheme>();
     }
 }

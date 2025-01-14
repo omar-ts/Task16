@@ -1,0 +1,22 @@
+﻿@model UserRoleVM
+<link rel="stylesheet" href="~/css/manage.css" />
+
+<div class="main_page col-12">
+    <div class="page_used_area col-10">
+        <h3 class="col-12">@Model.AppUser.UserName</h3>
+        <form asp-action="Manage" class="c_form col-5">
+            <input type="hidden" name="userId" value="@Model.AppUser.Id"/>
+            <label class="label_in col-12">Change Role</label>
+            <select name="roleName" class="input_in col-12">
+                @foreach(var item in Model.Role)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+
+            <div class="col-12">
+                <button type="submit" class="btn_submit">Change</button>
+            </div>
+        </form>
+    </div>
+</div>

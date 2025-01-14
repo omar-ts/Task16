@@ -38,6 +38,8 @@
                                 <a asp-action="Index" asp-controller="AllActor" class="dropdown-item a_all">Actors</a>
                                 <a asp-action="Index" asp-controller="AllMovie" class="dropdown-item a_all">Movies</a>
                                 <a asp-action="Index" asp-controller="AllActorMovies" class="dropdown-item a_all">Actor Movies</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item a_all" asp-controller="User" asp-action="Index">Users</a>
                             </div>
                         </li>
                         <div class="div_msg">
@@ -72,23 +74,46 @@
                 </form>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <div class="img_profile" style="background-image:url('@Url.Content("~/images/"+ user.ProfilePicture)')">
-                        <div class="box_prof shadow ">
-                            <div class="upper_prof">
-                                <p class="email_prof">@user.Email</p>
-                                <div class="img_prof" style="background-image:url('@Url.Content("~/images/"+ user.ProfilePicture)')"></div>
-                                <h5 style="padding-top:0.2rem;">Hi! @user.FirstName</h5>
-                            </div>
-                            <div class="lower_prof">
-                                <a asp-controller="Profile" asp-action="Index" class="detail_prof">Manage your Account</a>
-                                <div class="link_prof">
-                                    <a asp-controller="Account" asp-action="Register" class="left_link"><i class="fa-solid fa-plus i_left"></i> Add account</a>
-                                    <a asp-controller="Account" asp-action="Logout" class="right_link"><i class="fa-solid fa-arrow-right-from-bracket i_right"></i> Sign out</a>
+                    @if (user.PasswordHash != null)
+                    {
+                        <div class="img_profile" style="background-image:url('@Url.Content("~/images/"+ user.ProfilePicture)')">
+                            <div class="box_prof shadow ">
+                                <div class="upper_prof">
+                                    <p class="email_prof">@user.Email</p>
+                                    <div class="img_prof" style="background-image:url('@Url.Content("~/images/"+ user.ProfilePicture)')"></div>
+                                    <h5 style="padding-top:0.2rem;">Hi! @user.FirstName</h5>
+                                </div>
+                                <div class="lower_prof">
+                                    <a asp-controller="Profile" asp-action="Index" class="detail_prof">Manage your Account</a>
+                                    <div class="link_prof">
+                                        <a asp-controller="Account" asp-action="Register" class="left_link"><i class="fa-solid fa-plus i_left"></i> Add account</a>
+                                        <a asp-controller="Account" asp-action="Logout" class="right_link"><i class="fa-solid fa-arrow-right-from-bracket i_right"></i> Sign out</a>
+                                    </div>
                                 </div>
                             </div>
+                            <i class="fa-solid fa-xmark i_close"></i>
                         </div>
-                        <i class="fa-solid fa-xmark i_close"></i>
-                    </div>
+                    }
+                    else
+                    {
+                        <div class="img_profile" style="background-image:url('@Url.Content("~/images/"+ user.ProfilePicture)')">
+                            <div class="box_prof shadow ">
+                                <div class="upper_prof">
+                                    <p class="email_prof">@user.Email</p>
+                                    <div class="img_prof" style="background-image:url('@Url.Content("~/images/"+ user.ProfilePicture)')"></div>
+                                    <h5 style="padding-top:0.2rem;">Hi! @user.FirstName</h5>
+                                </div>
+                                <div class="lower_prof">
+                                    <div class="link_prof">
+                                        <a asp-controller="Account" asp-action="Register" class="left_link"><i class="fa-solid fa-plus i_left"></i> Add account</a>
+                                        <a asp-controller="Account" asp-action="Logout" class="right_link"><i class="fa-solid fa-arrow-right-from-bracket i_right"></i> Sign out</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-xmark i_close"></i>
+                        </div>
+                    }
+
                 }
                 else if (!User.Identity.IsAuthenticated)
                 {

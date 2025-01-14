@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MoviePoint.Models;
 using MoviePoint.Models.ViewModels;
+using System.Security.Claims;
 
 namespace MoviePoint.Controllers
 {
@@ -24,12 +25,61 @@ namespace MoviePoint.Controllers
                 await roleManager.CreateAsync(new("Customer"));
                 await roleManager.CreateAsync(new("Cinema"));
             }
+            ViewBag.ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             return View();
         }
+
+        public IActionResult ExternalLogin(string provider)
+        {
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback));
+            var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return Challenge(properties, provider);
+        }
+
+        public async Task<IActionResult> ExternalLoginCallback()
+        {
+            var info = await signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                return RedirectToAction(nameof(Register));
+            }
+            var ExternalLog = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
+            if (ExternalLog.IsLockedOut)
+            {
+                return RedirectToAction(nameof(Register));
+            }
+            if (ExternalLog.Succeeded)
+            {
+                return RedirectToAction("Index", "HomeMovie");
+            }
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            if (email != null)
+            {
+                ApplicationUser user = new()
+                {
+                    UserName = email,
+                    Email = email,
+                    ProfilePicture = "unknown.jpg"
+                };
+                var userCreate = await userManager.CreateAsync(user);
+                if (userCreate.Succeeded)
+                {
+                    var result = await userManager.AddLoginAsync(user, info);
+                    if (result.Succeeded)
+                    {
+                        await signInManager.SignInAsync(user, isPersistent: false);
+                        return RedirectToAction("Index", "HomeMovie");
+                    }
+                }
+            }
+            return RedirectToAction(nameof(Register));
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(ApplicationUserVM userVM, IFormFile file)
         {
+            ModelState.Remove("ExternalLogins");
             var EmailExixt = await userManager.FindByEmailAsync(userVM.Email);
             var UserExist = await userManager.FindByNameAsync(userVM.UserName);
             if (EmailExixt != null)
@@ -81,10 +131,18 @@ namespace MoviePoint.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginVM loginVM)
         {
+            var EmailExist = await userManager.FindByEmailAsync(loginVM.Account);
+            var UserExist = await userManager.FindByNameAsync(loginVM.Account);
+            if (EmailExist != null && EmailExist.LockoutEnd != null)
+            {
+                ModelState.AddModelError(string.Empty, "This user has been blocked");
+            }
+            else if (UserExist != null && UserExist.LockoutEnd != null)
+            {
+                ModelState.AddModelError(string.Empty, "This user has been blocked");
+            }
             if (ModelState.IsValid)
             {
-                var EmailExist = await userManager.FindByEmailAsync(loginVM.Account);
-                var UserExist = await userManager.FindByNameAsync(loginVM.Account);
                 if (EmailExist != null || UserExist != null)
                 {
                     var result = await userManager.CheckPasswordAsync(EmailExist ?? UserExist, loginVM.Password);
@@ -105,7 +163,7 @@ namespace MoviePoint.Controllers
             }
             return View(loginVM);
         }
-        
+
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
